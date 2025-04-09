@@ -1,6 +1,6 @@
-<template>
-    <div class="">
-        ana sayfa bileşeni
+<template lang="">
+    <div>
+        burası da test yani logout
     </div>
 </template>
 <script setup lang="ts">

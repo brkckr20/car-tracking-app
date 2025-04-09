@@ -15,7 +15,7 @@
         <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
             <ul class="navbar-nav d-flex flex-column">
                 <li class="nav-item">
-                    <RouterLink class="nav-link bg-gradient-dark text-white" to="/dashboard">
+                    <RouterLink class="nav-link bg-gradient-dark text-white" to="/">
                         <i class="material-symbols-rounded opacity-5">dashboard</i>
                         <span class="nav-link-text ms-1">Yönetim Paneli</span>
                     </RouterLink>

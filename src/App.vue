@@ -4,7 +4,7 @@ import AppAside from './components/AppAside.vue';
 
 <template>
   <AppAside />
-  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg pt-2">
     <router-view />
   </main>
 </template>
