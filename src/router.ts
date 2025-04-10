@@ -6,8 +6,8 @@ const routes = [
         component: () => import('./pages/Home.vue'),
     },
     {
-        path: '/car',
-        component: () => import('./pages/Car.vue'),
+        path: '/cards',
+        component: () => import('./pages/Cards.vue'),
     },
     {
         path: '/logout',

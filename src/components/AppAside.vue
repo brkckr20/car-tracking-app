@@ -21,9 +21,9 @@
                     </RouterLink>
                 </li>
                 <li class="nav-item">
-                    <RouterLink class="nav-link bg-success text-white" to="/car">
+                    <RouterLink class="nav-link bg-success text-white" to="/cards">
                         <i class="material-symbols-rounded opacity-5">cards</i>
-                        <span class="nav-link-text ms-1">Araç Kartı</span>
+                        <span class="nav-link-text ms-1">Kartlar</span>
                     </RouterLink>
                 </li>
                 <li class="nav-item">
