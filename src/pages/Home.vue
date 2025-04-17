@@ -130,10 +130,10 @@
                                                             Sonraki Tarih</th>
                                                         <th
                                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                            Yıl</th>
+                                                            Kalan Gün</th>
                                                         <th
                                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                            Renk</th>
+                                                            Plaka</th>
                                                         <th
                                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                             İşlemler</th>
@@ -151,16 +151,12 @@
                                                         <td class="align-middle text-center text-sm">
                                                             <p class="text-xs font-weight-bold mb-0">{{ nextDate }}</p>
                                                         </td>
+                                                        <td class="align-middle text-center bg-danger">
+                                                            <span
+                                                                class="text-white text-xs font-weight-bold">{{ dateDiff }} </span>
+                                                        </td>
                                                         <td class="align-middle text-center text-sm">
                                                             <span class="badge badge-sm bg-gradient-success"> 20 AGC 293 </span>
-                                                        </td>
-                                                        <td class="align-middle text-center">
-                                                            <span
-                                                                class="text-secondary text-xs font-weight-bold">2006</span>
-                                                        </td>
-                                                        <td class="align-middle text-center">
-                                                            <span
-                                                                class="text-secondary text-xs font-weight-bold">Mavi</span>
                                                         </td>
                                                         <td class="text-center">
                                                             <a href="javascript:;"
@@ -187,9 +183,7 @@
 <script setup lang="ts">
     import {GetDoubleValue,GetTwoDateDiff} from '../utils';
     const nextDate : string = "21.07.2025";
-    const dateDiff = GetTwoDateDiff(nextDate);
-    console.log(dateDiff);
-    
+    const dateDiff = GetTwoDateDiff(nextDate);    
 </script>
 <style lang="">
 
