@@ -190,7 +190,15 @@
     </div>
 </template>
 <script setup lang="ts">
+    import axios from 'axios';
+    import { onMounted } from 'vue';
+    import { ref } from 'vue';
+    const carList = ref([]);
 
+    onMounted(() => {
+        axios.get('http://localhost:3001/cards').then(response => carList.value = response.data.car).catch(error => console.log(error));
+        
+    });
 </script>
 <style lang="">
 

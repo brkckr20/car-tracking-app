@@ -181,9 +181,17 @@
     </div>
 </template>
 <script setup lang="ts">
+    import axios from 'axios';
+    import { onMounted } from 'vue';
     import {GetDoubleValue,GetTwoDateDiff} from '../utils';
     const nextDate : string = "21.07.2025";
-    const dateDiff = GetTwoDateDiff(nextDate);    
+    const dateDiff = GetTwoDateDiff(nextDate);
+
+    onMounted(() => {
+        axios.get('http://localhost:3001/').then(response => console.log(response.data)).catch(error => console.log(error));
+    });
+
+
 </script>
 <style lang="">
 
