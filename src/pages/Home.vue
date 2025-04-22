@@ -57,38 +57,37 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
+                                                    <tr v-for="list in periodicList">
                                                         <td class="">
                                                             <p class="text-xs font-weight-bold mb-0">
-                                                                Yağ Değişimi</p>
+                                                                {{ list.process.processName }}</p>
                                                         </td>
                                                         <td>
-                                                            <p class="text-xs font-weight-bold mb-0">10.04.2025</p>
+                                                            <p class="text-xs font-weight-bold mb-0">{{ list.date }}</p><!-- liste görünümü düzenlenecek -->
                                                         </td>
                                                         <td class="align-middle text-center text-sm">
-                                                            <span class="badge badge-sm bg-gradient-success">20 AGC
-                                                                293</span>
+                                                            <span class="badge badge-sm bg-gradient-success">{{ list.car.plate }}</span>
                                                         </td>
                                                         <td class="align-middle text-center">
                                                             <span
-                                                                class="text-secondary text-xs font-weight-bold">  {{ GetDoubleValue("5200")  }}
+                                                                class="text-secondary text-xs font-weight-bold">  {{ GetDoubleValue(list.price)  }}
                                                             </span>
                                                         </td>
                                                         <td class="align-middle text-center">
                                                             <span
-                                                                class="text-secondary text-xs font-weight-bold">304.000</span>
+                                                                class="text-secondary text-xs font-weight-bold">{{ConvertNumberDot(list.processKm)}}</span>
                                                         </td>
                                                         <td class="align-middle text-center">
                                                             <span
-                                                                class="text-secondary text-xs font-weight-bold">314.000</span>
+                                                                class="text-secondary text-xs font-weight-bold">{{ConvertNumberDot(list.nextKm)}}</span>
                                                         </td>
                                                         <td class="align-middle text-center">
                                                             <span
-                                                                class="text-secondary text-xs font-weight-bold">305.000</span>
+                                                                class="text-secondary text-xs font-weight-bold">{{ConvertNumberDot(list.currentKm)}}</span>
                                                         </td>
                                                         <td class="align-middle text-center bg-danger">
                                                             <span
-                                                                class="text-white text-xs font-weight-bold">9.000</span>
+                                                                class="text-white text-xs font-weight-bold">{{ConvertNumberDot(list.nextKm - list.currentKm)}}</span>
                                                         </td>
                                                         <td class="text-center">
                                                             <a href="javascript:;"
@@ -140,23 +139,23 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
+                                                    <tr v-for="list in necessassaryList">
                                                         <td class="">
                                                             <p class="text-xs font-weight-bold mb-0">
-                                                                Vize</p>
+                                                                {{list.process.processName}}</p>
                                                         </td>
                                                         <td>
-                                                            <p class="text-xs font-weight-bold mb-0">21.07.2023</p>
+                                                            <p class="text-xs font-weight-bold mb-0">{{list.date}}</p>
                                                         </td>
                                                         <td class="align-middle text-center text-sm">
-                                                            <p class="text-xs font-weight-bold mb-0">{{ nextDate }}</p>
+                                                            <p class="text-xs font-weight-bold mb-0">{{list.date}}</p> <!-- sonraki tarih olarak güncellenecek --> 
                                                         </td>
                                                         <td class="align-middle text-center bg-danger">
                                                             <span
-                                                                class="text-white text-xs font-weight-bold">{{ dateDiff }} </span>
+                                                                class="text-white text-xs font-weight-bold">{{ dateDiff }} </span> <!-- kalan tarih hesaplanıp girilecek -->
                                                         </td>
                                                         <td class="align-middle text-center text-sm">
-                                                            <span class="badge badge-sm bg-gradient-success"> 20 AGC 293 </span>
+                                                            <span class="badge badge-sm bg-gradient-success"> {{ list.car.plate }}</span>
                                                         </td>
                                                         <td class="text-center">
                                                             <a href="javascript:;"
@@ -181,17 +180,19 @@
     </div>
 </template>
 <script setup lang="ts">
-    import axios from 'axios';
-    import { onMounted } from 'vue';
-    import {GetDoubleValue,GetTwoDateDiff} from '../utils';
+    import { onMounted, ref } from 'vue';
+    import { GetList } from '../services/CRUDServices';
+    import {GetDoubleValue,GetTwoDateDiff,ConvertNumberDot} from '../utils';
     const nextDate : string = "21.07.2025";
     const dateDiff = GetTwoDateDiff(nextDate);
+    const necessassaryList : any= ref([]);
+    const periodicList : any= ref([]);
 
-    onMounted(() => {
-        axios.get('http://localhost:3001/').then(response => console.log(response.data)).catch(error => console.log(error));
+    onMounted(async() => {
+        const list = await GetList("");
+        periodicList.value = list.upcomingProcessList.filter((x:any) => x.process.processGroup === "Periyodik Bakım"); 
+        necessassaryList.value = list.upcomingProcessList.filter((x:any) => x.process.processGroup === "Zorunlu Gider");                
     });
-
-
 </script>
 <style lang="">
 

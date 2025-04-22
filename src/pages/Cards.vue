@@ -50,29 +50,28 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
+                                                    <tr  v-for="car in carList" :key="car.id">
                                                         <td class="">
                                                             <p class="text-xs font-weight-bold mb-0">
-                                                                Opel</p>
+                                                                {{car.brand}}</p>
                                                         </td>
                                                         <td>
-                                                            <p class="text-xs font-weight-bold mb-0">Manager</p>
+                                                            <p class="text-xs font-weight-bold mb-0">{{car.model}}</p>
                                                         </td>
                                                         <td class="align-middle text-center text-sm">
-                                                            <span class="badge badge-sm bg-gradient-success">20 AGC
-                                                                293</span>
+                                                            <span class="badge badge-sm bg-gradient-success">{{car.plate}}</span>
                                                         </td>
                                                         <td class="align-middle text-center">
                                                             <span
-                                                                class="text-secondary text-xs font-weight-bold">2006</span>
+                                                                class="text-secondary text-xs font-weight-bold">{{car.year}}</span>
                                                         </td>
                                                         <td class="align-middle text-center">
                                                             <span
-                                                                class="text-secondary text-xs font-weight-bold">Mavi</span>
+                                                                class="text-secondary text-xs font-weight-bold">{{car.color}}</span>
                                                         </td>
                                                         <td class="align-middle text-center">
                                                             <span
-                                                                class="text-secondary text-xs font-weight-bold">305.000</span>
+                                                                class="text-secondary text-xs font-weight-bold">{{ConvertNumberDot(car.km)}}</span>
                                                         </td>
                                                         <td class="text-center">
                                                             <a href="javascript:;"
@@ -128,45 +127,13 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
+                                                    <tr v-for="process in processList" :key="process.id">
                                                         <td class="">
                                                             <p class="text-xs font-weight-bold mb-0">
-                                                                Vize</p>
+                                                                {{process.processName}}</p>
                                                         </td>
                                                         <td>
-                                                            <p class="text-xs font-weight-bold mb-0">Zorunlu Gider</p>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <a href="javascript:;"
-                                                                class="text-secondary font-weight-bold text-xs"
-                                                                data-toggle="tooltip" data-original-title="Edit user">
-                                                                Düzenle
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="">
-                                                            <p class="text-xs font-weight-bold mb-0">
-                                                                Sigorta</p>
-                                                        </td>
-                                                        <td>
-                                                            <p class="text-xs font-weight-bold mb-0">Zorunlu Gider</p>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <a href="javascript:;"
-                                                                class="text-secondary font-weight-bold text-xs"
-                                                                data-toggle="tooltip" data-original-title="Edit user">
-                                                                Düzenle
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="">
-                                                            <p class="text-xs font-weight-bold mb-0">
-                                                                Yağ Değişimi</p>
-                                                        </td>
-                                                        <td>
-                                                            <p class="text-xs font-weight-bold mb-0">Periyodik Bakım</p>
+                                                            <p class="text-xs font-weight-bold mb-0">{{process.processGroup}}</p>
                                                         </td>
                                                         <td class="text-center">
                                                             <a href="javascript:;"
@@ -190,14 +157,17 @@
     </div>
 </template>
 <script setup lang="ts">
-    import axios from 'axios';
     import { onMounted } from 'vue';
     import { ref } from 'vue';
-    const carList = ref([]);
+    import { ConvertNumberDot } from '../utils'
+    import { GetList } from '../services/CRUDServices';
+    const carList : any = ref([]);
+    const processList : any = ref([]); 
 
-    onMounted(() => {
-        axios.get('http://localhost:3001/cards').then(response => carList.value = response.data.car).catch(error => console.log(error));
-        
+    onMounted(async() => {
+        const cars = await GetList('cards');
+        carList.value = cars.carList;
+        processList.value = cars.processList;
     });
 </script>
 <style lang="">

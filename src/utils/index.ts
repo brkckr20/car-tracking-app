@@ -23,3 +23,7 @@ const GetTodayDate = (): string => {
 
     return `${day}.${month}.${year}`; // "dd.MM.yyyy" formatında döndür
 }
+
+export const ConvertNumberDot: any = (value: any) => {
+    return value.toLocaleString(undefined, { minimumFractionDigits: 0 })
+}
