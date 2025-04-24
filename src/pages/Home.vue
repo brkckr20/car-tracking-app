@@ -63,7 +63,7 @@
                                                                 {{ list.process.processName }}</p>
                                                         </td>
                                                         <td>
-                                                            <p class="text-xs font-weight-bold mb-0">{{ list.date }}</p><!-- liste görünümü düzenlenecek -->
+                                                            <p class="text-xs font-weight-bold mb-0">{{ GetTurkisDateFormat(list.date) }}</p>
                                                         </td>
                                                         <td class="align-middle text-center text-sm">
                                                             <span class="badge badge-sm bg-gradient-success">{{ list.car.plate }}</span>
@@ -90,7 +90,7 @@
                                                                 class="text-white text-xs font-weight-bold">{{ConvertNumberDot(list.nextKm - list.currentKm)}}</span>
                                                         </td>
                                                         <td class="text-center">
-                                                            <a href="javascript:;"
+                                                            <a href="#" @click="OpenDetailModal"
                                                                 class="text-secondary font-weight-bold text-xs"
                                                                 data-toggle="tooltip" data-original-title="Edit user">
                                                                 Düzenle
@@ -145,10 +145,10 @@
                                                                 {{list.process.processName}}</p>
                                                         </td>
                                                         <td>
-                                                            <p class="text-xs font-weight-bold mb-0">{{list.date}}</p>
+                                                            <p class="text-xs font-weight-bold mb-0">{{GetTurkisDateFormat(list.date)}}</p>
                                                         </td>
                                                         <td class="align-middle text-center text-sm">
-                                                            <p class="text-xs font-weight-bold mb-0">{{list.date}}</p> <!-- sonraki tarih olarak güncellenecek --> 
+                                                            <p class="text-xs font-weight-bold mb-0">{{GetTurkisDateFormat(list.date)}}</p> <!-- sonraki tarih olarak güncellenecek --> 
                                                         </td>
                                                         <td class="align-middle text-center bg-danger">
                                                             <span
@@ -175,18 +175,22 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
+    
 </template>
 <script setup lang="ts">
     import { onMounted, ref } from 'vue';
     import { GetList } from '../services/CRUDServices';
-    import {GetDoubleValue,GetTwoDateDiff,ConvertNumberDot} from '../utils';
+    import {GetDoubleValue,GetTwoDateDiff,ConvertNumberDot,GetTurkisDateFormat} from '../utils';
     const nextDate : string = "21.07.2025";
     const dateDiff = GetTwoDateDiff(nextDate);
     const necessassaryList : any= ref([]);
     const periodicList : any= ref([]);
+    const OpenDetailModal = (event:any) => {
+        event.preventDefault();
+        alert("Burası tıklanılınca düzenleme ekrani açılacak");
+    }
 
     onMounted(async() => {
         const list = await GetList("");

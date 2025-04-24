@@ -27,3 +27,10 @@ const GetTodayDate = (): string => {
 export const ConvertNumberDot: any = (value: any) => {
     return value.toLocaleString(undefined, { minimumFractionDigits: 0 })
 }
+
+export const GetTurkisDateFormat = (date: string): string => {
+    const stringDate = date.split("T")[0];
+    const [year, month, day] = stringDate.split("-");
+    const formatDate = `${day}.${month}.${year}`;
+    return formatDate;
+}

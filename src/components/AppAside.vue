@@ -16,19 +16,25 @@
             <ul class="navbar-nav d-flex flex-column">
                 <li class="nav-item">
                     <RouterLink class="nav-link bg-gradient-dark text-white" to="/">
-                        <i class="material-symbols-rounded opacity-5">dashboard</i>
+                        <i class="material-symbols-rounded">dashboard</i>
                         <span class="nav-link-text ms-1">Yönetim Paneli</span>
                     </RouterLink>
                 </li>
                 <li class="nav-item">
                     <RouterLink class="nav-link bg-success text-white" to="/cards">
-                        <i class="material-symbols-rounded opacity-5">cards</i>
+                        <i class="material-symbols-rounded">cards</i>
                         <span class="nav-link-text ms-1">Kartlar</span>
                     </RouterLink>
                 </li>
                 <li class="nav-item">
+                    <RouterLink class="nav-link bg-primary text-white" to="/reports">
+                        <i class="material-symbols-rounded">monitoring</i>
+                        <span class="nav-link-text ms-1">Raporlar</span>
+                    </RouterLink>
+                </li>
+                <li class="nav-item">
                     <RouterLink class="nav-link bg-danger text-white" to="/logout">
-                        <i class="material-symbols-rounded opacity-5">logout</i>
+                        <i class="material-symbols-rounded">logout</i>
                         <span class="nav-link-text ms-1">Çıkış</span>
                     </RouterLink>
                 </li>
