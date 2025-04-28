@@ -24321,6 +24321,7 @@ svg.text-dark .color-background {
 
 html {
   border: none !important;
+  overflow-x: hidden !important;
 }
 
 .blur {

@@ -10,3 +10,6 @@ const instance = axios.create({
 export const GetList = async (tableName: string) => {
     return instance.get(`/${tableName}`).then(res => res.data).catch(err => console.log(err))
 }
+export const GetOperationList = async () => {
+    return instance.get(`/`).then(res => res.data).catch(err => console.log(err))
+}

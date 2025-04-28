@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div id="wrapper" class="container-fluid">
         <div class="row">
             <div class="col-md-12 mb-lg-0 mb-4">
                 <h3 class="mb-0 h4 font-weight-bolder">Yaklaşan İşlemler</h3>
@@ -7,8 +7,8 @@
                     <div class="card-header pb-0 p-3">
                         <div class="row">
                             <div class="col-12 text-end">
-                                <a class="btn bg-gradient-dark mb-0" href="javascript:;"><i
-                                        class="material-symbols-rounded text-sm">add</i>&nbsp;&nbsp;Yeni İşlem Ekle</a>
+                                <button class="btn bg-gradient-dark mb-0" @click="toggleDrawer" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+                                        class="material-symbols-rounded text-sm">add</i>&nbsp;&nbsp;Yeni İşlem Ekle</button>
                             </div>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
                                                                 class="text-white text-xs font-weight-bold">{{ConvertNumberDot(list.nextKm - list.currentKm)}}</span>
                                                         </td>
                                                         <td class="text-center">
-                                                            <a href="#" @click="OpenDetailModal"
+                                                            <a href="#" @click=""
                                                                 class="text-secondary font-weight-bold text-xs"
                                                                 data-toggle="tooltip" data-original-title="Edit user">
                                                                 Düzenle
@@ -176,6 +176,40 @@
                 </div>
             </div>
         </div>
+        <div :class="{ open: isOpen }" class="right_drawer shadow-lg">
+            <h3 class="mb-0 h6 font-weight-bolder border-bottom">Yeni İşlem Ekleme</h3>
+            <form class="row">
+                <div class="col-12 p-0 mt-1">
+                    <select @change="handleChange" class="form-control border">
+                        <option selected>İşlem Tipi</option>
+                        <option v-for="item in operationList" :key="item.id" :value="item.id">{{item.processName}}</option>
+                    </select>
+                </div>
+                <div class="col-12 p-0 mt-1">
+                    <input  type="date" class="form-control border">
+                </div>
+                <div v-if="showToScreen === 'Periyodik Bakım'" class="col-12 p-0 mt-1">
+                    <div class="input-group input-group-dynamic">
+                        <input type="text" class="form-control" placeholder="Tutar ₺">
+                    </div>
+                </div>
+                <div class="col-12 p-0 mt-1">
+                    <div class="input-group input-group-dynamic">
+                        <input type="text" class="form-control" placeholder="İşlem Km">
+                    </div>
+                </div>
+                <div class="col-12 p-0 mt-1">
+                    <div class="input-group input-group-dynamic">
+                        <input type="text" class="form-control" placeholder="Sonraki Km">
+                    </div>
+                </div>
+                <div class="col-12 p-0 mt-1">
+                    <div class="input-group input-group-dynamic">
+                        <input type="text" class="form-control" placeholder="Mevcut Km">
+                    </div>
+                </div>
+            </form>
+    </div>
     </div>
     
 </template>
@@ -183,21 +217,57 @@
     import { onMounted, ref } from 'vue';
     import { GetList } from '../services/CRUDServices';
     import {GetDoubleValue,GetTwoDateDiff,ConvertNumberDot,GetTurkisDateFormat} from '../utils';
+    const isOpen = ref(false)
+    const showToScreen = ref("");
+    const toggleDrawer = () => {
+        isOpen.value = !isOpen.value
+    }
     const nextDate : string = "21.07.2025";
     const dateDiff = GetTwoDateDiff(nextDate);
     const necessassaryList : any= ref([]);
     const periodicList : any= ref([]);
-    const OpenDetailModal = (event:any) => {
-        event.preventDefault();
-        alert("Burası tıklanılınca düzenleme ekrani açılacak");
+    const operationList : any = ref([]);
+    const handleChange = (e:any) => { // seçilecek işleme göre ekranda input görüntülenip gizlenecek (devamet)
+        switch(e.target.value){
+            case "1":
+                showToScreen.value = "Periyodik Bakım";
+                break;
+            case "2":
+                showToScreen.value = "Zorunlu Gider";
+                break;
+            default:
+                showToScreen.value = "";
+        }
     }
-
     onMounted(async() => {
         const list = await GetList("");
         periodicList.value = list.upcomingProcessList.filter((x:any) => x.process.processGroup === "Periyodik Bakım"); 
-        necessassaryList.value = list.upcomingProcessList.filter((x:any) => x.process.processGroup === "Zorunlu Gider");                
+        necessassaryList.value = list.upcomingProcessList.filter((x:any) => x.process.processGroup === "Zorunlu Gider");     
+        operationList.value = list.processList; 
     });
 </script>
-<style lang="">
+<style scoped>
+    .right_drawer {
+  width: 300px;
+  position: absolute;
+  top: 19.2%;
+  right: -500px;
+  z-index: 999999;
+  border-radius: 20px;
+  padding: 20px 25px;
+  background: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  transition: right 0.4s ease-in-out;
+}
 
+/* Drawer açıkken ekrana gelsin */
+.right_drawer.open {
+  right: 30px;
+}
+#wrapper {
+    overflow-x: hidden;
+}
+input,select{
+    padding: 5px;
+}
 </style>
