@@ -176,38 +176,49 @@
                 </div>
             </div>
         </div>
-        <div :class="{ open: isOpen }" class="right_drawer shadow-lg">
+        <div :class="{ open: isOpen }" class="right_drawer shadow-lg"><!-- yeni kayıt ekleme ve güncelleme modalıdır. Tablolarda bulunan düzenleme butonuna göre ekran dolu açılacak -->
             <h3 class="mb-0 h6 font-weight-bolder border-bottom">Yeni İşlem Ekleme</h3>
             <form class="row">
                 <div class="col-12 p-0 mt-1">
                     <select @change="handleChange" class="form-control border">
-                        <option selected>İşlem Tipi</option>
-                        <option v-for="item in operationList" :key="item.id" :value="item.id">{{item.processName}}</option>
+                        <option disabled selected>İşlem Tipi Seçiniz</option>
+                        <option v-for="item in operationList" :key="item.id" :value="item.processGroup">{{item.processName}}</option>
                     </select>
                 </div>
-                <div class="col-12 p-0 mt-1">
+                <div v-if="showToScreen !== null" class="col-12 p-0 mt-1">
+                    <label class="m-0">İşlem Tarihi</label>
                     <input  type="date" class="form-control border">
                 </div>
-                <div v-if="showToScreen === 'Periyodik Bakım'" class="col-12 p-0 mt-1">
+                <div v-if="showToScreen === 'Zorunlu Gider'" class="col-12 p-0 mt-1">
+                    <label class="m-0">Sonraki tarih</label>
+                    <input  type="date" class="form-control border">
+                </div>
+                <div v-if="showToScreen !== null" class="col-12 p-0 mt-1">
                     <div class="input-group input-group-dynamic">
                         <input type="text" class="form-control" placeholder="Tutar ₺">
                     </div>
                 </div>
-                <div class="col-12 p-0 mt-1">
+                <div v-if="showToScreen === 'Periyodik Bakım'" class="col-12 p-0 mt-1">
                     <div class="input-group input-group-dynamic">
                         <input type="text" class="form-control" placeholder="İşlem Km">
                     </div>
                 </div>
-                <div class="col-12 p-0 mt-1">
+                <div v-if="showToScreen === 'Periyodik Bakım'" class="col-12 p-0 mt-1">
                     <div class="input-group input-group-dynamic">
                         <input type="text" class="form-control" placeholder="Sonraki Km">
                     </div>
                 </div>
-                <div class="col-12 p-0 mt-1">
+                <div v-if="showToScreen === 'Periyodik Bakım'" class="col-12 p-0 mt-1">
                     <div class="input-group input-group-dynamic">
                         <input type="text" class="form-control" placeholder="Mevcut Km">
                     </div>
                 </div>
+                <div v-if="showToScreen !== null" class="col-12 p-0 mt-1">
+                    <div class="input-group input-group-dynamic">
+                        <input type="text" class="form-control" placeholder="Plaka">
+                    </div>
+                </div>
+                <button type="submit" class="btn bg-gradient-success mt-2">Kaydet</button>
             </form>
     </div>
     </div>
@@ -218,7 +229,7 @@
     import { GetList } from '../services/CRUDServices';
     import {GetDoubleValue,GetTwoDateDiff,ConvertNumberDot,GetTurkisDateFormat} from '../utils';
     const isOpen = ref(false)
-    const showToScreen = ref("");
+    const showToScreen = ref(null);
     const toggleDrawer = () => {
         isOpen.value = !isOpen.value
     }
@@ -227,17 +238,8 @@
     const necessassaryList : any= ref([]);
     const periodicList : any= ref([]);
     const operationList : any = ref([]);
-    const handleChange = (e:any) => { // seçilecek işleme göre ekranda input görüntülenip gizlenecek (devamet)
-        switch(e.target.value){
-            case "1":
-                showToScreen.value = "Periyodik Bakım";
-                break;
-            case "2":
-                showToScreen.value = "Zorunlu Gider";
-                break;
-            default:
-                showToScreen.value = "";
-        }
+    const handleChange = (e:any) => {
+        showToScreen.value = e.target.value;
     }
     onMounted(async() => {
         const list = await GetList("");
